@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Gestion Restaurant</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #2c3e50;
+            color: white;
+            height: 100vh;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background: #34495e;
+        }
+
+        /* Content */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: #ecf0f1;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Restaurant</h2>
+    <a href="#">🍽 Plats (Menu)</a>
+    <a href="#">🧾 Commandes</a>
+    <a href="#">🪑 Tables</a>
+    <a href="#">📅 Réservations</a>
+    <a href="#">👨‍🍳 Employés</a>
+</div>
+
+<div class="content">
+    <h1>Dashboard</h1>
+
+    <div class="card">
+        <h3>Bienvenue 👋</h3>
+        <p>Sélectionnez une entité dans le menu pour commencer la gestion.</p>
+    </div>
+</div>
+
+</body>
+</html>
