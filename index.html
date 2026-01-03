@@ -1,68 +1,68 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Login - Gestion Restaurant</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .login-box {
-            background: white;
-            padding: 30px;
-            width: 320px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            background: #27ae60;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #1e8449;
-        }
-
-        .error {
-            color: red;
-            text-align: center;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Le Noble</title>
+<style>
+  body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #0a1f44, #c0392b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color:#fff;
+  }
+  .login-container {
+    background:#fff;
+    color:#0a1f44;
+    padding: 30px;
+    border-radius:10px;
+    width: 300px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  }
+  .login-container h2 {
+    text-align:center;
+    color:#c0392b;
+    margin-bottom:20px;
+  }
+  input {
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:5px;
+    border:1px solid #ccc;
+  }
+  button {
+    width:100%;
+    padding:10px;
+    background-color:#c0392b;
+    color:#fff;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    font-weight:bold;
+  }
+  button:hover {
+    background-color:#a83228;
+  }
+  .error {
+    color:red;
+    text-align:center;
+    margin-bottom:10px;
+  }
+</style>
 </head>
 <body>
-
-<div class="login-box">
-    <h2>Connexion</h2>
-    <form onsubmit="login(event)">
-        <input type="text" id="username" placeholder="Nom d'utilisateur" required>
-        <input type="password" id="password" placeholder="Mot de passe" required>
-        <button type="submit">Se connecter</button>
-        <p class="error" id="errorMsg"></p>
-    </form>
+<div class="login-container">
+  <h2>Le Noble Admin</h2>
+  <div class="error" id="errorMsg"></div>
+  <input type="text" id="username" placeholder="Nom d'utilisateur">
+  <input type="password" id="password" placeholder="Mot de passe">
+  <button id="loginBtn">Se connecter</button>
 </div>
-
 <script src="login.js"></script>
 </body>
 </html>
