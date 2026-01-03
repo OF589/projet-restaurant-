@@ -1,74 +1,189 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Dashboard - Gestion Restaurant</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            display: flex;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 240px;
-            background: #2c3e50;
-            color: white;
-            height: 100vh;
-            padding-top: 20px;
-        }
-
-        .sidebar h2 {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 15px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover {
-            background: #34495e;
-        }
-
-        /* Content */
-        .content {
-            flex: 1;
-            padding: 20px;
-            background: #ecf0f1;
-        }
-
-        .card {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Le Noble</title>
+<style>
+body { margin:0; font-family: Arial,sans-serif; background:#f4f6f8; }
+.sidebar {
+  width:220px; background:#0a1f44; color:#fff; height:100vh; position:fixed; padding-top:20px;
+}
+.sidebar h2 { text-align:center; color:#c0392b; margin-bottom:30px; }
+.sidebar a {
+  display:block; padding:15px 20px; color:#fff; text-decoration:none; margin-bottom:5px; border-radius:5px;
+}
+.sidebar a:hover { background:#c0392b; }
+.main { margin-left:220px; padding:20px; }
+.navbar { display:flex; justify-content:space-between; align-items:center; background:#0a1f44; color:#fff; padding:10px 20px; border-radius:10px; margin-bottom:20px; }
+.cards { display:flex; gap:20px; flex-wrap:wrap; margin-bottom:20px; }
+.card { flex:1; min-width:150px; background:#fff; color:#0a1f44; padding:20px; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.1); text-align:center; }
+.entity-section { margin-top:20px; }
+.entity-section h3 { margin-bottom:10px; color:#c0392b; }
+form { background:#fff; padding:15px; border-radius:10px; margin-bottom:20px; box-shadow:0 0 10px rgba(0,0,0,0.1); }
+form input, form select { width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc; }
+button { padding:5px 10px; margin:2px; border:none; border-radius:5px; cursor:pointer; color:#fff; }
+.btn-edit { background:#3498db; }
+.btn-delete { background:#c0392b; }
+.btn-details { background:#27ae60; }
+.btn-add { background:#2980b9; margin-bottom:10px; }
+table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+table, th, td { border:1px solid #ccc; }
+th, td { padding:10px; text-align:left; }
+th { background:#0a1f44; color:#fff; }
+</style>
 </head>
 <body>
-
 <div class="sidebar">
-    <h2>Restaurant</h2>
-    <a href="#">🍽 Plats (Menu)</a>
-    <a href="#">🧾 Commandes</a>
-    <a href="#">🪑 Tables</a>
-    <a href="#">📅 Réservations</a>
-    <a href="#">👨‍🍳 Employés</a>
+  <h2>Le Noble</h2>
+  <a href="#" data-entity="plats">Plats</a>
+  <a href="#" data-entity="commandes">Commandes</a>
+  <a href="#" data-entity="tables">Tables</a>
+  <a href="#" data-entity="reservations">Réservations</a>
+  <a href="#" data-entity="employes">Employés</a>
+  <a href="#" onclick="logout()">Déconnexion</a>
 </div>
 
-<div class="content">
-    <h1>Dashboard</h1>
-
-    <div class="card">
-        <h3>Bienvenue 👋</h3>
-        <p>Sélectionnez une entité dans le menu pour commencer la gestion.</p>
-    </div>
+<div class="main">
+<div class="navbar">
+  <div>Bienvenue Admin</div>
+  <div>
+    <select id="lang">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+      <option value="ar">العربية</option>
+    </select>
+  </div>
 </div>
 
+<!-- Cartes -->
+<div class="cards">
+  <div class="card" id="totalPlats">Plats: 0</div>
+  <div class="card" id="totalCommandes">Commandes: 0</div>
+  <div class="card" id="totalTables">Tables: 0</div>
+  <div class="card" id="totalReservations">Réservations: 0</div>
+  <div class="card" id="totalEmployes">Employés: 0</div>
+</div>
+
+<!-- Section entités -->
+<div class="entity-section" id="entitySection">
+  <h3>Sélectionnez une entité</h3>
+</div>
+</div>
+
+<script>
+function logout(){ window.location.href='index.html'; }
+
+// Fonction pour récupérer les données du localStorage ou initialiser vide
+function getData(entity){
+  const saved = localStorage.getItem(entity);
+  if(saved) return JSON.parse(saved);
+  else { localStorage.setItem(entity, JSON.stringify([])); return []; }
+}
+
+// Données initiales vides
+let data = {
+  plats: getData('plats'),
+  commandes: getData('commandes'),
+  tables: getData('tables'),
+  reservations: getData('reservations'),
+  employes: getData('employes')
+};
+
+// Mise à jour cartes
+function updateCards(){
+  document.getElementById('totalPlats').textContent='Plats: '+data.plats.length;
+  document.getElementById('totalCommandes').textContent='Commandes: '+data.commandes.length;
+  document.getElementById('totalTables').textContent='Tables: '+data.tables.length;
+  document.getElementById('totalReservations').textContent='Réservations: '+data.reservations.length;
+  document.getElementById('totalEmployes').textContent='Employés: '+data.employes.length;
+}
+updateCards();
+
+// Navigation entités
+document.querySelectorAll('.sidebar a[data-entity]').forEach(link=>{
+  link.addEventListener('click',(e)=>{
+    const entity = e.target.dataset.entity;
+    showEntity(entity);
+  });
+});
+
+const entitySection = document.getElementById('entitySection');
+
+// Définition des champs pour chaque entité
+const entityFields = {
+  plats: ['nom','prix'],
+  commandes: ['client','total'],
+  tables: ['numero','capacite'],
+  reservations: ['client','table','date'],
+  employes: ['nom','poste']
+};
+
+function showEntity(entity){
+  const fields = entityFields[entity];
+  entitySection.innerHTML = `<h3>${entity.charAt(0).toUpperCase()+entity.slice(1)}</h3>
+    <form id="form${entity}">
+      ${fields.map(f=>`<input type="text" placeholder="${f}" name="${f}" required>`).join('')}
+      <button type="submit" class="btn-add">Ajouter ${entity}</button>
+    </form>
+    <table>
+      <thead>
+        <tr>${['ID', ...fields].map(k=>'<th>'+k+'</th>').join('')}<th>Actions</th></tr>
+      </thead>
+      <tbody id="${entity}Table"></tbody>
+    </table>`;
+  
+  renderTable(entity);
+
+  // Formulaire ajout avec sauvegarde dans localStorage
+  document.getElementById('form'+entity).onsubmit=function(e){
+    e.preventDefault();
+    const form = e.target;
+    const obj = {id:Date.now()};
+    Object.keys(form.elements).forEach(i=>{
+      const el = form.elements[i];
+      if(el.name) obj[el.name]=el.value;
+    });
+    data[entity].push(obj);
+    localStorage.setItem(entity, JSON.stringify(data[entity])); // Sauvegarde
+    renderTable(entity);
+    updateCards();
+    form.reset();
+  };
+}
+
+function renderTable(entity){
+  const tbody = document.getElementById(entity+'Table');
+  tbody.innerHTML='';
+  const fields = entityFields[entity];
+  data[entity].forEach(item=>{
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${item.id}</td>` + fields.map(f=>`<td>${item[f] || ''}</td>`).join('') +
+      `<td>
+        <button class="btn-details" onclick="details('${entity}',${item.id})">Voir</button>
+        <button class="btn-edit" onclick="edit('${entity}',${item.id})">Modifier</button>
+        <button class="btn-delete" onclick="del('${entity}',${item.id})">Supprimer</button>
+      </td>`;
+    tbody.appendChild(row);
+  });
+}
+
+// Fonctions CRUD
+window.edit=function(entity,id){ alert('Modifier ID '+id+' dans '+entity+' (à compléter)'); }
+
+window.del=function(entity,id){
+  if(confirm('Confirmer la suppression ?')){
+    data[entity]=data[entity].filter(i=>i.id!==id);
+    localStorage.setItem(entity, JSON.stringify(data[entity])); // Sauvegarde
+    renderTable(entity); updateCards();
+  }
+}
+
+window.details=function(entity,id){
+  const item = data[entity].find(i=>i.id===id);
+  alert(JSON.stringify(item,null,2));
+}
+</script>
 </body>
 </html>
+
